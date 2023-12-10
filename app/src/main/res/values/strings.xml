@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Unfuck ZUI Tablet</string>
+    <string name="xposed_description">Make your Lenovo ZUI tablet less fucked up</string>
+
+    <string name="disable_taskbar_title">Disable taskbar</string>
+    <string name="disable_taskbar_summary_3button">Effective after returning to home screen</string>
+
+    <string name="disable_force_stop_title">Disable remove-to-force-stop</string>
+    <string name="disable_force_stop_summary">In overview screen (app switcher)</string>
+</resources>

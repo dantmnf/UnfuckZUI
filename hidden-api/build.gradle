@@ -1,0 +1,29 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'xyz.cirno.hidden_api'
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 32
+        targetSdk 33
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    annotationProcessor 'dev.rikka.tools.refine:annotation-processor:4.4.0'
+    compileOnly 'dev.rikka.tools.refine:annotation:4.4.0'
+}

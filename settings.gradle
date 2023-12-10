@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+
+    versionCatalogs {
+        libs {
+            version("refine", "4.4.0")
+            plugin('refine', 'dev.rikka.tools.refine').versionRef('refine')
+        }
+    }
+}
+rootProject.name = "UnfuckZui"
+include ':app'
+include ':hidden-api'

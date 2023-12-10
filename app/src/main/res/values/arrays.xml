@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="xposed_scope" >
+<!--        <item>android</item>-->
+        <item>com.zui.launcher</item>
+        <item>com.zui.safecenter</item>
+        <item>com.android.packageinstaller</item>
+        <item>com.android.systemui</item>
+        <item>com.android.permissioncontroller</item>
+    </string-array>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="disable_taskbar_title">禁用任务栏</string>
+    <string name="disable_taskbar_summary_3button">返回桌面后生效</string>
+
+    <string name="disable_force_stop_title">禁用划卡杀后台</string>
+    <string name="disable_force_stop_summary">恢复原生后台行为</string>
+</resources>
