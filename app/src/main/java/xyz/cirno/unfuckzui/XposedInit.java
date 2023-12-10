@@ -19,8 +19,6 @@ public class XposedInit implements IXposedHookLoadPackage {
             new LauncherHook().handleLoadPackage(lpparam);
         } else if ("com.android.packageinstaller".equals(lpparam.packageName)) {
             PackageInstallerHook.handleZuiPackageInstaller(lpparam);
-        } else if ("android".equals(lpparam.packageName) && "android".equals(lpparam.processName)) {
-            new SystemServerHook().handleSystemServer(lpparam);
         } else if ("com.android.systemui".equals(lpparam.packageName)) {
             new SystemUIHook().handleLoadSystemUi(lpparam);
         } else if ("com.android.permissioncontroller".equals(lpparam.packageName)) {
