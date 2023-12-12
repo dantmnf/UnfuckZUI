@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Unfuck ZUI Tablet</string>
+  <string name="xposed_description">Lenovo ZUI タブレットを使いやすくするモジュール</string>
+  <string name="disable_taskbar_title">タスクバーを無効化する</string>
+  <string name="disable_taskbar_summary_3button">ホーム画面に戻った後に設定が適用されます</string>
+  <string name="disable_force_stop_title">削除を無効化させて強制停止にする</string>
+  <string name="disable_force_stop_summary">オーバービュー画面内 (アプリスイッチャー)</string>
+</resources>
