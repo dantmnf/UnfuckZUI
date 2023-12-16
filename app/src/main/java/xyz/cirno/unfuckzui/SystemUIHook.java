@@ -27,6 +27,7 @@ import xyz.cirno.unfuckzui.hooks.ReturnNullHook;
 public class SystemUIHook {
     private Context systemUiContext;
     private PackageManager pm;
+    private final ThreadLocal<Boolean> isCtsMode = ThreadLocal.withInitial(() -> Boolean.TRUE);
 
     private Context getSystemUiContext() {
         if (systemUiContext == null) {
@@ -61,6 +62,33 @@ public class SystemUIHook {
             }
         });
 
+        XposedHelpers.findAndHookMethod("com.android.systemui.util.XSystemUtil", lpparam.classLoader, "isCTSGTSTest", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                var mode = isCtsMode.get();
+                if (mode != null) {
+                    param.setResult(Boolean.TRUE.equals(mode));
+                }
+            }
+        });
+
+        XposedHelpers.findAndHookMethod("com.android.systemui.battery.BatteryMeterView", lpparam.classLoader, "onDarkChanged", java.util.ArrayList.class, float.class, int.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                isCtsMode.set(Boolean.FALSE);
+            }
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                isCtsMode.set(null);
+            }
+        });
+        XposedHelpers.findAndHookConstructor("com.android.systemui.statusbar.phone.DarkIconDispatcherImpl", lpparam.classLoader, android.content.Context.class, "com.android.systemui.statusbar.phone.LightBarTransitionsController$Factory", "com.android.systemui.dump.DumpManager", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                XposedHelpers.setIntField(param.thisObject, "mDarkModeIconColorSingleTone", 0xdf000000);
+                XposedHelpers.setIntField(param.thisObject, "mDarkModeIconColorSingleToneCts", 0xdf000000);
+            }
+        });
         final var clsStatusBarIconView = XposedHelpers.findClass("com.android.systemui.statusbar.StatusBarIconView", lpparam.classLoader);
         final var field_mDrawableColor = XposedHelpers.findField(clsStatusBarIconView, "mDrawableColor");
         final var field_mIconColor = XposedHelpers.findField(clsStatusBarIconView, "mIconColor");
