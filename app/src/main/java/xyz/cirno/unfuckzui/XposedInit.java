@@ -25,6 +25,8 @@ public class XposedInit implements IXposedHookLoadPackage {
             PermissionControllerHook.handleLoadPackage(lpparam);
         } else if ("com.zui.safecenter".equals(lpparam.packageName)) {
             SafeCenterHook.handleLoadPackage(lpparam);
+        } else if ("com.android.settings".equals(lpparam.packageName)) {
+            SettingsHook.handleLoadPackage(lpparam);
         }
     }
 

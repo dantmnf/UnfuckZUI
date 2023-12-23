@@ -23,6 +23,7 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import xyz.cirno.unfuckzui.hooks.ReturnNullHook;
+import xyz.cirno.unfuckzui.hooks.ReturnTrueHook;
 
 public class SystemUIHook {
     private Context systemUiContext;
@@ -248,6 +249,9 @@ public class SystemUIHook {
                 notificationInfo_mPkgIcon.set(param.thisObject, mPkgIcon);
             }
         });
+
+        XposedHelpers.findAndHookMethod("com.android.systemui.qs.tiles.QDolbyAtmosTile", lpparam.classLoader, "isHeadSetConnect", new ReturnTrueHook());
+        XposedHelpers.findAndHookMethod("com.android.systemui.qs.tiles.QDolbyAtmosDetailView", lpparam.classLoader, "isHeadSetConnect", new ReturnTrueHook());
     }
 
 }
