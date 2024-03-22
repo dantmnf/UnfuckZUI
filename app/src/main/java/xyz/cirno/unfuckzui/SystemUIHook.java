@@ -252,6 +252,27 @@ public class SystemUIHook {
 
         XposedHelpers.findAndHookMethod("com.android.systemui.qs.tiles.QDolbyAtmosTile", lpparam.classLoader, "isHeadSetConnect", new ReturnTrueHook());
         XposedHelpers.findAndHookMethod("com.android.systemui.qs.tiles.QDolbyAtmosDetailView", lpparam.classLoader, "isHeadSetConnect", new ReturnTrueHook());
+
+        XposedHelpers.findAndHookMethod("com.android.systemui.shared.recents.utilities.Utilities", lpparam.classLoader, "isTablet", android.content.Context.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                final var th = new Throwable();
+                final var stack = th.getStackTrace();
+                for (final var line: stack) {
+                    if (line.getClassName().contains("NavigationBarController")) {
+                        param.setResult(false);
+                        return;
+                    }
+                }
+            }
+        });
+
+        XposedHelpers.findAndHookMethod("com.android.systemui.navigationbar.gestural.NavigationHandle", lpparam.classLoader, "setAlpha", float.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                Log.i("NavigationHandle", "setAlpha" + param.args[0], new Throwable());
+            }
+        });
     }
 
 }
