@@ -3,9 +3,19 @@ package xyz.cirno.unfuckzui;
 import android.annotation.SuppressLint;
 import android.os.SystemProperties;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import xyz.cirno.unfuckzui.feature.AllowDisableDolbyAtmos;
+import xyz.cirno.unfuckzui.feature.DisableForceStop;
+import xyz.cirno.unfuckzui.feature.DisableTaskbar;
+import xyz.cirno.unfuckzui.feature.PackageInstallerHook;
+import xyz.cirno.unfuckzui.feature.PermissionControllerHook;
+import xyz.cirno.unfuckzui.feature.SafeCenterHook;
+import xyz.cirno.unfuckzui.feature.UnfuckNotificationIcon;
 
 @SuppressLint({"PrivateApi", "DiscouragedPrivateApi"})
 public class XposedInit implements IXposedHookLoadPackage {
@@ -15,25 +25,16 @@ public class XposedInit implements IXposedHookLoadPackage {
             XposedBridge.log("Not ZUI ROM");
             return;
         }
-        if ("com.zui.launcher".equals(lpparam.packageName)) {
-            new LauncherHook().handleLoadPackage(lpparam);
-        } else if ("com.android.packageinstaller".equals(lpparam.packageName)) {
-            PackageInstallerHook.handleZuiPackageInstaller(lpparam);
-        } else if ("com.android.systemui".equals(lpparam.packageName)) {
-            new SystemUIHook().handleLoadSystemUi(lpparam);
-        } else if ("com.android.permissioncontroller".equals(lpparam.packageName)) {
-            PermissionControllerHook.handleLoadPackage(lpparam);
-        } else if ("com.zui.safecenter".equals(lpparam.packageName)) {
-            SafeCenterHook.handleLoadPackage(lpparam);
-        } else if ("com.android.settings".equals(lpparam.packageName)) {
-            SettingsHook.handleLoadPackage(lpparam);
+        for (var feature : FeatureRegistry.FEATURES) {
+            for (var scope : feature.hook_scope) {
+                if (Objects.equals(scope, lpparam.packageName)) {
+                    // read XSharedPreferences as late as possible
+                    if ((feature instanceof FeatureRegistry.DynamicFeature) || FeatureControl.getInstance().isFeatureEnabled(feature.key)) {
+                        feature.handleLoadPackage(lpparam);
+                    }
+                }
+            }
         }
     }
 
-//    @Override
-//    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
-//        if ("com.android.systemui".equals(resparam.packageName)) {
-//            SystemUIHook.handleLoadResource(resparam);
-//        }
-//    }
 }

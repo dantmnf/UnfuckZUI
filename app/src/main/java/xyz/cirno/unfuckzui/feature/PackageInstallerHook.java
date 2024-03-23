@@ -1,15 +1,25 @@
-package xyz.cirno.unfuckzui;
+package xyz.cirno.unfuckzui.feature;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import xyz.cirno.unfuckzui.hooks.ReturnTrueHook;
+import xyz.cirno.unfuckzui.FeatureRegistry;
 
 public class PackageInstallerHook {
+    public static final String FEATURE_NAME = "package_installer_style";
+    public static final FeatureRegistry.Feature FEATURE = new FeatureRegistry.Feature(FEATURE_NAME, new String[] {"com.android.packageinstaller"}, PackageInstallerHook::handleLoadPackage);
+
+    public static void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if ("com.android.packageinstaller".equals(lpparam.packageName)) {
+            handleZuiPackageInstaller(lpparam);
+        }
+    }
+
     static void handleZuiPackageInstaller(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         final var utilsClass = XposedHelpers.findClass("com.android.packageinstaller.extra.Utils", lpparam.classLoader);
-        XposedHelpers.findAndHookMethod(utilsClass, "isCTSandGTS", String.class, new ReturnTrueHook());
-        XposedHelpers.findAndHookMethod(utilsClass, "isCTSandGTS", String.class, android.content.Intent.class, new ReturnTrueHook());
+        XposedHelpers.findAndHookMethod(utilsClass, "isCTSandGTS", String.class, XC_MethodReplacement.returnConstant(Boolean.TRUE));
+        XposedHelpers.findAndHookMethod(utilsClass, "isCTSandGTS", String.class, android.content.Intent.class, XC_MethodReplacement.returnConstant(Boolean.TRUE));
 
         final var rStyleCls = XposedHelpers.findClass("com.android.packageinstaller.R$style", lpparam.classLoader);
         final var Theme_AlertDialogActivity = XposedHelpers.getStaticIntField(rStyleCls, "Theme_AlertDialogActivity");

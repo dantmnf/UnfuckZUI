@@ -1,6 +1,6 @@
-package xyz.cirno.unfuckzui;
+package xyz.cirno.unfuckzui.feature;
 
-import android.app.ActivityThread;
+import android.animation.ArgbEvaluator;
 import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -16,19 +16,25 @@ import android.widget.ImageView;
 
 import com.android.internal.util.ContrastColorUtil;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import xyz.cirno.unfuckzui.hooks.ReturnNullHook;
-import xyz.cirno.unfuckzui.hooks.ReturnTrueHook;
+import xyz.cirno.unfuckzui.FeatureRegistry;
 
-public class SystemUIHook {
+public class UnfuckNotificationIcon {
+    public static final String FEATURE_NAME = "honor_notification_smallicon";
+    public static final FeatureRegistry.Feature FEATURE = new FeatureRegistry.Feature(FEATURE_NAME, new String[] {"com.android.systemui"}, UnfuckNotificationIcon::handleLoadPackage);
+    public static void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        new UnfuckNotificationIcon().handleLoadSystemUi(lpparam);
+    }
+
     private Context systemUiContext;
     private PackageManager pm;
-    private final ThreadLocal<Boolean> isCtsMode = ThreadLocal.withInitial(() -> Boolean.TRUE);
+    private final ThreadLocal<Boolean> isCtsMode = ThreadLocal.withInitial(() -> null);
 
     private Context getSystemUiContext() {
         if (systemUiContext == null) {
@@ -54,6 +60,8 @@ public class SystemUIHook {
 
 
     public void handleLoadSystemUi(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+
+
 
         XposedHelpers.findAndHookMethod(android.app.Application.class, "onCreate", new XC_MethodHook() {
             @Override
@@ -88,45 +96,43 @@ public class SystemUIHook {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 XposedHelpers.setIntField(param.thisObject, "mDarkModeIconColorSingleTone", 0xdf000000);
                 XposedHelpers.setIntField(param.thisObject, "mDarkModeIconColorSingleToneCts", 0xdf000000);
+                XposedHelpers.setIntField(param.thisObject, "mLightModeIconColorSingleTone", 0xffffffff);
             }
         });
+        var lookup = MethodHandles.lookup();
         final var clsStatusBarIconView = XposedHelpers.findClass("com.android.systemui.statusbar.StatusBarIconView", lpparam.classLoader);
-        final var field_mDrawableColor = XposedHelpers.findField(clsStatusBarIconView, "mDrawableColor");
-        final var field_mIconColor = XposedHelpers.findField(clsStatusBarIconView, "mIconColor");
-        final var method_setColorInternal = clsStatusBarIconView.getDeclaredMethod("setColorInternal", int.class);
+        final var setDrawableColor = lookup.unreflectSetter(XposedHelpers.findField(clsStatusBarIconView, "mDrawableColor"));
+        final var setIconColor = lookup.unreflectSetter(XposedHelpers.findField(clsStatusBarIconView, "mIconColor"));
+        var method_setColorInternal = clsStatusBarIconView.getDeclaredMethod("setColorInternal", int.class);
         method_setColorInternal.setAccessible(true);
-        final var method_updateContrastedStaticColor = clsStatusBarIconView.getDeclaredMethod("updateContrastedStaticColor");
+        final var mh_setColorInternal = lookup.unreflect(method_setColorInternal);
+        var method_updateContrastedStaticColor = clsStatusBarIconView.getDeclaredMethod("updateContrastedStaticColor");
         method_updateContrastedStaticColor.setAccessible(true);
-        final var field_mDozer = XposedHelpers.findField(clsStatusBarIconView, "mDozer");
-        final var method_dozer_setColor = field_mDozer.getType().getDeclaredMethod("setColor", int.class);
+        final var mh_updateContrastedStaticColor = lookup.unreflect(method_updateContrastedStaticColor);
+        var field_mDozer = XposedHelpers.findField(clsStatusBarIconView, "mDozer");
+        final var getDozer = lookup.unreflectGetter(field_mDozer);
+        var method_dozer_setColor = field_mDozer.getType().getDeclaredMethod("setColor", int.class);
         method_dozer_setColor.setAccessible(true);
+        final var mh_dozer_setColor = lookup.unreflect(method_dozer_setColor);
 
         XposedHelpers.findAndHookMethod(clsStatusBarIconView, "setStaticDrawableColor", int.class, new XC_MethodReplacement() {
             @Override
             protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                 var color = (int) param.args[0];
                 var thiz = param.thisObject;
-                field_mDrawableColor.setInt(thiz, color);
-                method_setColorInternal.invoke(thiz, color);
-                method_updateContrastedStaticColor.invoke(thiz);
-                field_mIconColor.setInt(thiz, color);
-                var mDozer = field_mDozer.get(thiz);
+                setDrawableColor.invoke(thiz, color);
+                mh_setColorInternal.invoke(thiz, color);
+                mh_updateContrastedStaticColor.invoke(thiz);
+                setIconColor.invoke(thiz, color);
+                var mDozer = (Object) getDozer.invoke(thiz);
                 if (mDozer != null) {
-                    method_dozer_setColor.invoke(mDozer, color);
+                    mh_dozer_setColor.invoke(mDozer, color);
                 }
                 return null;
             }
         });
 
-//        XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.NotificationListener", lpparam.classLoader, "onListenerConnected", new XC_MethodHook() {
-//            @Override
-//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                notificationListener = param.thisObject;
-//                hookExecutor = (Executor) XposedHelpers.getObjectField(param.thisObject, "mMainExecutor");
-//            }
-//        });
-
-        XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.NotificationListener", lpparam.classLoader, "replaceTheSmallIcon", android.service.notification.StatusBarNotification.class, new ReturnNullHook());
+        XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.NotificationListener", lpparam.classLoader, "replaceTheSmallIcon", android.service.notification.StatusBarNotification.class, XC_MethodReplacement.returnConstant(null));
 
         XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.phone.NotificationIconAreaController", lpparam.classLoader, "generateIconLayoutParams", new XC_MethodHook() {
             @Override
@@ -141,7 +147,7 @@ public class SystemUIHook {
             }
         });
 
-        XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader, "clearStatusBarIcon", new ReturnNullHook());
+        XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader, "clearStatusBarIcon", XC_MethodReplacement.returnConstant(null));
 
         final var notificationHeaderViewWrapper_class = XposedHelpers.findClass("com.android.systemui.statusbar.notification.row.wrapper.NotificationHeaderViewWrapper", lpparam.classLoader);
         final var notificationHeaderViewWrapper_mIcon = XposedHelpers.findField(notificationHeaderViewWrapper_class, "mIcon");
@@ -250,29 +256,16 @@ public class SystemUIHook {
             }
         });
 
-        XposedHelpers.findAndHookMethod("com.android.systemui.qs.tiles.QDolbyAtmosTile", lpparam.classLoader, "isHeadSetConnect", new ReturnTrueHook());
-        XposedHelpers.findAndHookMethod("com.android.systemui.qs.tiles.QDolbyAtmosDetailView", lpparam.classLoader, "isHeadSetConnect", new ReturnTrueHook());
+        var argbEvaluator = new ArgbEvaluator();
 
-        XposedHelpers.findAndHookMethod("com.android.systemui.shared.recents.utilities.Utilities", lpparam.classLoader, "isTablet", android.content.Context.class, new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.phone.NotificationIconAreaController", lpparam.classLoader, "onDarkChanged", java.util.ArrayList.class, float.class, int.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                final var th = new Throwable();
-                final var stack = th.getStackTrace();
-                for (final var line: stack) {
-                    if (line.getClassName().contains("NavigationBarController")) {
-                        param.setResult(false);
-                        return;
-                    }
-                }
-            }
-        });
-
-        XposedHelpers.findAndHookMethod("com.android.systemui.navigationbar.gestural.NavigationHandle", lpparam.classLoader, "setAlpha", float.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                Log.i("NavigationHandle", "setAlpha" + param.args[0], new Throwable());
+                Log.i("NotificationIconAreaController", "onDarkChanged mIconTint=" + XposedHelpers.getIntField(param.thisObject, "mIconTint"));
+                var darkIntensity = (float) param.args[1];
+                var mIconTint = argbEvaluator.evaluate(darkIntensity, 0xffffffff, 0xb2000000);
+                param.args[2] = mIconTint;
             }
         });
     }
-
 }
