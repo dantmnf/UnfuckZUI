@@ -7,4 +7,23 @@
 
     <string name="disable_force_stop_title">Disable remove-to-force-stop</string>
     <string name="disable_force_stop_summary">In overview screen (app switcher)</string>
+
+
+    <string name="category_appearance">Appearance</string>
+    <string name="honor_notification_smallicon_title">Honor notification icon set by application</string>
+    <string name="honor_notification_smallicon_summary">instead of being replaced by app icon</string>
+    <string name="package_installer_style_title">AOSP-style package installer</string>
+    <string name="permission_controller_style_title">AOSP-style permission popup</string>
+    <string name="category_behavior">Behavior</string>
+    <string name="allow_disable_dax_title">Allow disable Dolby Atmos for builtin speakers</string>
+    <string name="disable_virus_scan_title">Disable virus scan</string>
+    <string name="category_about">About</string>
+    <string name="version_title">Module version</string>
+    <string name="show_launcher_icon">Show launcher icon</string>
+    <string name="action_reload_settings">Reload settings now</string>
+    <string name="message_no_apps_to_reload">No apps to reload</string>
+    <string name="message_no_root_permission">No root permission</string>
+    <string name="message_su_invocation_failed">su invocation failed</string>
+    <string name="message_manual_reload">Please restart apps in scope manually, or reboot your device</string>
+    <string name="message_module_not_enabled">Module not enabled</string>
 </resources>

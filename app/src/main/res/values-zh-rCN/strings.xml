@@ -5,4 +5,20 @@
 
     <string name="disable_force_stop_title">禁用划卡杀后台</string>
     <string name="disable_force_stop_summary">恢复原生后台行为</string>
+    <string name="category_appearance">外观</string>
+    <string name="honor_notification_smallicon_title">原生通知图标</string>
+    <string name="honor_notification_smallicon_summary">未适配的应用（包括部分系统应用）发送的通知将显示异常</string>
+    <string name="package_installer_style_title">原生应用安装器</string>
+    <string name="permission_controller_style_title">原生权限对话框</string>
+    <string name="category_behavior">行为</string>
+    <string name="allow_disable_dax_title">允许禁用内置扬声器的杜比全景声</string>
+    <string name="disable_virus_scan_title">禁用病毒扫描</string>
+    <string name="category_about">关于</string>
+    <string name="version_title">模块版本</string>
+    <string name="show_launcher_icon">显示启动器图标</string>
+    <string name="action_reload_settings">立即重新加载设置</string>
+    <string name="message_no_apps_to_reload">当前无需重新加载</string>
+    <string name="message_no_root_permission">未获得 root 权限</string>
+    <string name="message_su_invocation_failed">su 操作失败</string>
+    <string name="message_manual_reload">请手动重启作用域内应用或重启设备</string>
 </resources>

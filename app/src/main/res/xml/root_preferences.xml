@@ -1,0 +1,55 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:key="category_appearance" android:title="@string/category_appearance">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="disable_taskbar"
+            android:title="@string/disable_taskbar_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="honor_notification_smallicon"
+            android:summary="@string/honor_notification_smallicon_summary"
+            android:title="@string/honor_notification_smallicon_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="package_installer_style"
+            android:title="@string/package_installer_style_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="permission_controller_style"
+            android:title="@string/permission_controller_style_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="category_behavior"  android:title="@string/category_behavior">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="allow_disable_dax"
+            android:title="@string/allow_disable_dax_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="disable_force_stop"
+            android:summary="@string/disable_force_stop_summary"
+            android:title="@string/disable_force_stop_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="disable_virus_scan"
+            android:title="@string/disable_virus_scan_title" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="about" android:title="@string/category_about">
+
+        <Preference android:key="version" android:title="@string/version_title" android:summary=" " android:persistent="false" />
+        <SwitchPreference android:key="show_launcher_icon" android:title="@string/show_launcher_icon" android:persistent="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
