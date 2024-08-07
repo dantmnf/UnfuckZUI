@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="zui_config_min_current_screen_split_width_dp">760</integer>
+</resources>

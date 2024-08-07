@@ -23,3 +23,7 @@ dependencyResolutionManagement {
 rootProject.name = "UnfuckZui"
 include ':app'
 include ':hidden-api'
+include ':overlay-frameworkres'
+include ':overlay-settings'
+include ':overlay-systemui'
+include ':magisk'

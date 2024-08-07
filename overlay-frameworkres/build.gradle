@@ -1,0 +1,75 @@
+
+
+plugins {
+    id 'com.android.application'
+}
+
+
+android {
+    namespace 'xyz.cirno.unfuckzui.overlay.android'
+    compileSdk 34
+
+//    aaptOptions {
+//        aaptOptions.additionalParameters("--no-resource-deduping", "--no-resource-removal")
+//    }
+
+    androidResources {
+        additionalParameters += ['--no-resource-deduping', '--no-resource-removal']
+
+    }
+
+
+
+    defaultConfig {
+        applicationId "xyz.cirno.unfuckzui.overlay.android"
+        minSdk 34
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources false
+
+            // sign overlay apk with random key
+            signingConfig signingConfigs.debug
+
+        }
+        debug {
+            // use R8 to eliminate R class
+            debuggable false
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach {
+            outputFileName = "UnfuckZuiOverlayFramework.apk"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        buildConfig = false
+        resValues = false
+    }
+    packagingOptions {
+        // FIXME: doesn't work
+        resources.excludes += "META-INF/com/android/build/gradle/app-metadata.properties"
+    }
+
+//    androidResources.additionalParameters("--no-resource-deduping", "--no-resource-removal")
+}
+
+dependencies {
+
+}
+
+

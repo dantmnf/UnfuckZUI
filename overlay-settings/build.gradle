@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'xyz.cirno.unfuckzui.overlay.settings'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "xyz.cirno.unfuckzui.overlay.settings"
+        minSdk 34
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources false
+            // sign overlay apk with random key
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            // use R8 to eliminate R class
+            debuggable false
+            minifyEnabled true
+            shrinkResources false
+        }
+    }
+
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach {
+            outputFileName = "UnfuckZuiOverlaySettings.apk"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        buildConfig = false
+        resValues = false
+    }
+    packagingOptions {
+        // FIXME: doesn't work
+        resources.excludes += "META-INF/com/android/build/gradle/app-metadata.properties"
+    }
+
+}
+
+dependencies {
+
+}
+
+

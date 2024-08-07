@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="navigation_bar_height">48dp</dimen>
+    <dimen name="navigation_bar_height_landscape">48dp</dimen>
+    <dimen name="navigation_bar_height_portrait" tools:ignore="MissingDefaultResource">48dp</dimen>
+</resources>

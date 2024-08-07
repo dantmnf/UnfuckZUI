@@ -1,0 +1,19 @@
+tasks.register('packageMagisk', Zip) {
+    dependsOn(":overlay-frameworkres:packageRelease")
+    dependsOn(":overlay-settings:packageRelease")
+//    dependsOn(":overlay-systemui:packageRelease")
+    from('module/') {
+        include '**/*'
+    }
+    from(tasks.getByPath(":overlay-frameworkres:packageRelease").outputs.files.asFileTree.filter { it.name.endsWith(".apk") }) {
+        into("system/product/overlay/")
+    }
+    from(tasks.getByPath(":overlay-settings:packageRelease").outputs.files.asFileTree.filter { it.name.endsWith(".apk") }) {
+        into("system/product/overlay/")
+    }
+//    from(tasks.getByPath(":overlay-systemui:packageRelease").outputs.files.asFileTree.filter { it.name.endsWith(".apk") }) {
+//        into("system/product/overlay/")
+//    }
+    archiveFileName = 'unfuckzui16-overlays.zip'
+    destinationDirectory = file("$rootDir/build")
+}
