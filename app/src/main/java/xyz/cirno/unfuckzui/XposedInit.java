@@ -1,21 +1,17 @@
 package xyz.cirno.unfuckzui;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityThread;
 import android.os.SystemProperties;
+import android.provider.Settings;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import xyz.cirno.unfuckzui.feature.AllowDisableDolbyAtmos;
-import xyz.cirno.unfuckzui.feature.DisableForceStop;
-import xyz.cirno.unfuckzui.feature.DisableTaskbar;
-import xyz.cirno.unfuckzui.feature.PackageInstallerHook;
-import xyz.cirno.unfuckzui.feature.PermissionControllerHook;
-import xyz.cirno.unfuckzui.feature.SafeCenterHook;
-import xyz.cirno.unfuckzui.feature.UnfuckNotificationIcon;
 
 @SuppressLint({"PrivateApi", "DiscouragedPrivateApi"})
 public class XposedInit implements IXposedHookLoadPackage {
@@ -30,11 +26,14 @@ public class XposedInit implements IXposedHookLoadPackage {
                 if (Objects.equals(scope, lpparam.packageName)) {
                     // read XSharedPreferences as late as possible
                     if ((feature instanceof FeatureRegistry.DynamicFeature) || FeatureControl.getInstance().isFeatureEnabled(feature.key)) {
-                        feature.handleLoadPackage(lpparam);
+                        try {
+                            feature.handleLoadPackage(lpparam);
+                        } catch (Throwable t) {
+                            XposedBridge.log(t);
+                        }
                     }
                 }
             }
         }
     }
-
 }

@@ -2,7 +2,8 @@ package xyz.cirno.unfuckzui;
 
 import android.preference.PreferenceDataStore;
 
-import androidx.annotation.Nullable;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 

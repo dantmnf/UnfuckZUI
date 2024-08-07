@@ -9,6 +9,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import xyz.cirno.unfuckzui.feature.AllowDisableDolbyAtmos;
 import xyz.cirno.unfuckzui.feature.DisableForceStop;
 import xyz.cirno.unfuckzui.feature.DisableTaskbar;
+import xyz.cirno.unfuckzui.feature.FixAutoGuest;
 import xyz.cirno.unfuckzui.feature.PackageInstallerHook;
 import xyz.cirno.unfuckzui.feature.PermissionControllerHook;
 import xyz.cirno.unfuckzui.feature.SafeCenterHook;
@@ -66,6 +67,7 @@ public class FeatureRegistry {
             PermissionControllerHook.FEATURE,
             SafeCenterHook.FEATURE,
             UnfuckNotificationIcon.FEATURE,
+            FixAutoGuest.FEATURE,
     };
 
     private static final Map<String, Feature> featureMap;

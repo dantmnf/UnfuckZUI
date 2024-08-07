@@ -3,7 +3,6 @@
     <string name="xposed_description">Модуль, що полегшує використання планшетів з Lenovo ZUI</string>
 
     <string name="disable_taskbar_title">Вимкнути панель завдань</string>
-    <string name="disable_taskbar_summary_3button">Діє після повернення на головний екран</string>
 
     <string name="disable_force_stop_title">Вимкнути примусову зупинку додатків при видаленні</string>
     <string name="disable_force_stop_summary">На екрані нещодавніх (перемикачі програм)</string>

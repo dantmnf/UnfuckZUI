@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 import android.util.TypedValue;
@@ -147,7 +148,11 @@ public class UnfuckNotificationIcon {
             }
         });
 
-        XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader, "clearStatusBarIcon", XC_MethodReplacement.returnConstant(null));
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
+            XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader, "clearStatusBarIcon", XC_MethodReplacement.returnConstant(null));
+        } else if (Build.VERSION.SDK_INT == 34) {
+            XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.phone.ZuiCoreImpl", lpparam.classLoader, "clearStatusBarIcon", XC_MethodReplacement.returnConstant(null));
+        }
 
         final var notificationHeaderViewWrapper_class = XposedHelpers.findClass("com.android.systemui.statusbar.notification.row.wrapper.NotificationHeaderViewWrapper", lpparam.classLoader);
         final var notificationHeaderViewWrapper_mIcon = XposedHelpers.findField(notificationHeaderViewWrapper_class, "mIcon");
@@ -205,15 +210,17 @@ public class UnfuckNotificationIcon {
         final var notificationIconContainer_mContext = XposedHelpers.findField(notificationIconContainer_class, "mContext");
         final var mThemedTextColorPrimary = XposedHelpers.findField(notificationIconContainer_class, "mThemedTextColorPrimary");
 
-        XposedHelpers.findAndHookMethod(notificationShelf_class, "initDimens", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                var mShelfIcons = notificationShelf_mShelfIcons.get(param.thisObject);
-                notificationIconContainer_setInNotificationIconShelf.invoke(mShelfIcons, true);
-            }
-        });
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
+            XposedHelpers.findAndHookMethod(notificationShelf_class, "initDimens", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    var mShelfIcons = notificationShelf_mShelfIcons.get(param.thisObject);
+                    notificationIconContainer_setInNotificationIconShelf.invoke(mShelfIcons, true);
+                }
+            });
+        }
 
-        XposedHelpers.findAndHookMethod(notificationIconContainer_class, "initDimens", new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod(notificationIconContainer_class, Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU ? "initDimens" : "initResources", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 var context = (Context) notificationIconContainer_mContext.get(param.thisObject);

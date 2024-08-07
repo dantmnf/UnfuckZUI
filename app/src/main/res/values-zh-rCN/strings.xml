@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Unfuck ZUI Tablet</string>
     <string name="disable_taskbar_title">禁用任务栏</string>
-    <string name="disable_taskbar_summary_3button">返回桌面后生效</string>
 
     <string name="disable_force_stop_title">禁用划卡杀后台</string>
     <string name="disable_force_stop_summary">恢复原生后台行为</string>
@@ -21,4 +21,11 @@
     <string name="message_no_root_permission">未获得 root 权限</string>
     <string name="message_su_invocation_failed">su 操作失败</string>
     <string name="message_manual_reload">请手动重启作用域内应用或重启设备</string>
+    <string name="fix_guest_user_title">阻止自动创建访客用户</string>
+    <string name="fix_guest_user_summary">仅在多用户启用时允许创建访客用户</string>
+    <string name="message_module_not_enabled">模块未启用</string>
+    <string name="xposed_description">联想：🤓👆我在这个系统里加了点💩，这样你才能知道我有致敬过友商的各种 UI 而且会听取用户声音</string>
+    <string name="disable_taskbar_summary">系统内支持设置则不生效</string>
+    <string name="cn_rom_only">仅适用于中国版 ROM</string>
+    <string name="rom_region">ROM 区域</string>
 </resources>

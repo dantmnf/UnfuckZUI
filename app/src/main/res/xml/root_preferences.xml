@@ -4,7 +4,8 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="disable_taskbar"
-            android:title="@string/disable_taskbar_title" />
+            android:title="@string/disable_taskbar_title"
+            android:summary="@string/disable_taskbar_summary"/>
 
         <SwitchPreference
             android:defaultValue="true"
@@ -15,12 +16,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="package_installer_style"
-            android:title="@string/package_installer_style_title" />
+            android:title="@string/package_installer_style_title"
+            android:summary="@string/cn_rom_only" />
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="permission_controller_style"
-            android:title="@string/permission_controller_style_title" />
+            android:title="@string/permission_controller_style_title"
+            android:summary="@string/cn_rom_only" />
 
     </PreferenceCategory>
 
@@ -40,14 +43,20 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="disable_virus_scan"
-            android:title="@string/disable_virus_scan_title" />
+            android:title="@string/disable_virus_scan_title"
+            android:summary="@string/cn_rom_only" />
 
-
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="fix_auto_guest"
+            android:title="@string/fix_guest_user_title"
+            android:summary="@string/fix_guest_user_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:key="about" android:title="@string/category_about">
 
         <Preference android:key="version" android:title="@string/version_title" android:summary=" " android:persistent="false" />
+        <Preference android:key="rom_region" android:title="@string/rom_region" android:summary=" " android:persistent="false" />
         <SwitchPreference android:key="show_launcher_icon" android:title="@string/show_launcher_icon" android:persistent="false" />
 
     </PreferenceCategory>

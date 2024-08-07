@@ -3,11 +3,10 @@
     <string name="xposed_description">Make your Lenovo ZUI tablet less fucked up</string>
 
     <string name="disable_taskbar_title">Disable taskbar</string>
-    <string name="disable_taskbar_summary_3button">Effective after returning to home screen</string>
+    <string name="disable_taskbar_summary">Doesn’t take effect if also available in system settings</string>
 
     <string name="disable_force_stop_title">Disable remove-to-force-stop</string>
     <string name="disable_force_stop_summary">In overview screen (app switcher)</string>
-
 
     <string name="category_appearance">Appearance</string>
     <string name="honor_notification_smallicon_title">Honor notification icon set by application</string>
@@ -26,4 +25,8 @@
     <string name="message_su_invocation_failed">su invocation failed</string>
     <string name="message_manual_reload">Please restart apps in scope manually, or reboot your device</string>
     <string name="message_module_not_enabled">Module not enabled</string>
+    <string name="fix_guest_user_title">Don’t auto create guest user</string>
+    <string name="fix_guest_user_summary">If multi-user is not enabled</string>
+    <string name="cn_rom_only">Only applicable to CN ROM</string>
+    <string name="rom_region">ROM region</string>
 </resources>

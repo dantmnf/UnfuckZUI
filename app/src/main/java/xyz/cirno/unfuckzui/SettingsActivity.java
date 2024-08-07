@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
@@ -164,6 +165,7 @@ public class SettingsActivity extends Activity {
             });
 
             findPreference("version").setSummary(BuildConfig.VERSION_NAME);
+            findPreference("rom_region").setSummary(SystemProperties.get("ro.config.zui.region", "N/A"));
         }
 
 
