@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Unfuck ZUI Tablet</string>
+    <string name="xposed_description">Сделайте систему ZUI на своём Lenovo планшете более комфортной</string>
+
+    <string name="disable_taskbar_title">Отключить нижний док (таскбар)</string>
+    <string name="disable_taskbar_summary">Не будет применено, если также изменить через системные настройки</string>
+
+    <string name="disable_force_stop_title">Отключить принудительную выгрузку приложений при смахивании</string>
+    <string name="disable_force_stop_summary">в списке запущенных приложений</string>
+
+    <string name="category_appearance">Внешний вид</string>
+    <string name="honor_notification_smallicon_title">Динамические значки уведомлений вместо статичных цветных</string>
+    <string name="honor_notification_smallicon_summary">с полезной информацией (напр. температура, уровень заряда)</string>
+    <string name="package_installer_style_title">Установщик пакетов в стиле AOSP</string>
+    <string name="permission_controller_style_title">Запрос разрешений в стиле AOSP</string>
+    <string name="category_behavior">Функции</string>
+    <string name="allow_disable_dax_title">Разрешить отключение Dolby Atmos для встроенных динамиков</string>
+    <string name="disable_virus_scan_title">Отключить проверку антивирусом</string>
+    <string name="category_about">О приложении</string>
+    <string name="version_title">Версия модуля</string>
+    <string name="show_launcher_icon">Показать иконку в лаунчере</string>
+    <string name="action_reload_settings">Применить настройки</string>
+    <string name="message_no_apps_to_reload">Нет приложений для перезагрузки</string>
+    <string name="message_no_root_permission">Нет root-прав</string>
+    <string name="message_su_invocation_failed">Вызов su не удался</string>
+    <string name="message_manual_reload">Перезапустите приложения вручную или перезагрузите устройство</string>
+    <string name="message_module_not_enabled">Модуль неактивен</string>
+    <string name="fix_guest_user_title">Не создавать аккаунт гостя автоматически</string>
+    <string name="fix_guest_user_summary">если разрешено несколько пользователей</string>
+    <string name="cn_rom_only">Применимо только для CN ROM</string>
+    <string name="rom_region">Регион прошивки</string>
+</resources>
