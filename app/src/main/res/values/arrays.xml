@@ -8,5 +8,6 @@
         <item>com.android.systemui</item>
         <item>com.android.permissioncontroller</item>
         <item>com.android.settings</item>
+        <item>com.zui.game.service</item>
     </string-array>
 </resources>
