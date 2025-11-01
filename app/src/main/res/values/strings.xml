@@ -27,6 +27,10 @@
     <string name="message_module_not_enabled">Module not enabled</string>
     <string name="fix_guest_user_title">Don’t auto create guest user</string>
     <string name="fix_guest_user_summary">If multi-user is not enabled</string>
-    <string name="cn_rom_only">Only applicable to CN ROM</string>
     <string name="rom_region">ROM region</string>
+    <string name="allow_get_packages_title">Always allow query installed packages</string>
+    <string name="allow_get_packages_summary">The system feature does not work well. Use Hide My Applist instead if needed</string>
+    <string name="keep_rotation_title">Keep screen rotation after reboot</string>
+    <string name="cn_rom_only">PRC ROM specific</string>
+    <string name="default_enable_autorun_title">Enable app auto start by default</string>
 </resources>

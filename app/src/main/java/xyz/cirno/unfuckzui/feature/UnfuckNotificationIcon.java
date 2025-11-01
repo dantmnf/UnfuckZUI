@@ -30,6 +30,9 @@ public class UnfuckNotificationIcon {
     public static final String FEATURE_NAME = "honor_notification_smallicon";
     public static final FeatureRegistry.Feature FEATURE = new FeatureRegistry.Feature(FEATURE_NAME, new String[] {"com.android.systemui"}, UnfuckNotificationIcon::handleLoadPackage);
     public static void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if (Build.VERSION.SDK_INT == 35) {
+            return;
+        }
         new UnfuckNotificationIcon().handleLoadSystemUi(lpparam);
     }
 

@@ -1,5 +1,8 @@
 package xyz.cirno.unfuckzui.feature;
 
+import android.app.Activity;
+import android.view.Window;
+
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
@@ -23,9 +26,18 @@ public class PackageInstallerHook {
 
         final var rStyleCls = XposedHelpers.findClass("com.android.packageinstaller.R$style", lpparam.classLoader);
         final var Theme_AlertDialogActivity = XposedHelpers.getStaticIntField(rStyleCls, "Theme_AlertDialogActivity");
-        XposedHelpers.findAndHookMethod("com.android.packageinstaller.PackageInstallerActivity", lpparam.classLoader, "onCreate", android.os.Bundle.class, new ActivityStyleHook(Theme_AlertDialogActivity, true));
-        XposedHelpers.findAndHookMethod("com.android.packageinstaller.InstallStaging", lpparam.classLoader, "onCreate", android.os.Bundle.class, new ActivityStyleHook(Theme_AlertDialogActivity, true));
-        XposedHelpers.findAndHookMethod("com.android.packageinstaller.InstallStart", lpparam.classLoader, "onCreate", android.os.Bundle.class, new ActivityStyleHook(android.R.style.Theme_Translucent_NoTitleBar, false));
+
+        // AOSP package installer doesn't set style on individual activities
+        XposedHelpers.findAndHookMethod(android.app.Activity.class, "onCreate", android.os.Bundle.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                var activity = (Activity) param.thisObject;
+                activity.setTheme(Theme_AlertDialogActivity);
+                activity.setTranslucent(true);
+                activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                activity.getWindow().setWindowAnimations(0);
+            }
+        });
     }
 
     private static class ActivityStyleHook extends XC_MethodHook {

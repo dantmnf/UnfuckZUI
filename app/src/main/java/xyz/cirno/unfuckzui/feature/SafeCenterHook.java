@@ -11,5 +11,6 @@ public class SafeCenterHook {
     public static void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         XposedHelpers.findAndHookMethod("tmsdk.fg.creator.ManagerCreatorF", lpparam.classLoader, "getManager", java.lang.Class.class, XC_MethodReplacement.returnConstant(null));
         XposedHelpers.findAndHookMethod("com.lenovo.safecenter.antivirus.external.AntiVirusInterface", lpparam.classLoader, "initTMSApplication", android.content.Context.class, boolean.class, XC_MethodReplacement.returnConstant(null));
+        XposedHelpers.findAndHookMethod("com.lenovo.safecenter.antivirus.tmsdbupdate.UpdateTMSVDBReceiver", lpparam.classLoader, "onReceive", "android.content.Context", "android.content.Intent", XC_MethodReplacement.returnConstant(null));
     }
 }

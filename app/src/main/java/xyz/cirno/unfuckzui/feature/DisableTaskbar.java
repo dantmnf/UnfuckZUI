@@ -12,6 +12,10 @@ public class DisableTaskbar {
     public static final String FEATURE_NAME = "disable_taskbar";
     public static final FeatureRegistry.Feature FEATURE = new FeatureRegistry.Feature(FEATURE_NAME, new String[] {"com.zui.launcher", "com.android.systemui"}, DisableTaskbar::handleLoadPackage);
     public static void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if (Build.VERSION.SDK_INT >= 35) {
+            // setting available since middle ZUI 16
+            return;
+        }
         if ("com.zui.launcher".equals(lpparam.packageName)) {
             // check if taskbar is configurable in this build
             var TaskbarManagerClass = XposedHelpers.findClassIfExists("com.zui.launcher.taskbar.TaskbarManager", lpparam.classLoader);

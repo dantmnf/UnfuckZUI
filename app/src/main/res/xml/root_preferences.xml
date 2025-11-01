@@ -13,22 +13,11 @@
             android:summary="@string/honor_notification_smallicon_summary"
             android:title="@string/honor_notification_smallicon_title" />
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="package_installer_style"
-            android:title="@string/package_installer_style_title"
-            android:summary="@string/cn_rom_only" />
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="permission_controller_style"
-            android:title="@string/permission_controller_style_title"
-            android:summary="@string/cn_rom_only" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:key="category_behavior"  android:title="@string/category_behavior">
-
         <SwitchPreference
             android:defaultValue="true"
             android:key="allow_disable_dax"
@@ -40,17 +29,48 @@
             android:summary="@string/disable_force_stop_summary"
             android:title="@string/disable_force_stop_title" />
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="disable_virus_scan"
-            android:title="@string/disable_virus_scan_title"
-            android:summary="@string/cn_rom_only" />
+
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="fix_auto_guest"
             android:title="@string/fix_guest_user_title"
             android:summary="@string/fix_guest_user_summary"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="keep_rotation"
+            android:title="@string/keep_rotation_title"/>
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="category_cn" android:title="@string/cn_rom_only">、
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="package_installer_style"
+            android:title="@string/package_installer_style_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="permission_controller_style"
+            android:title="@string/permission_controller_style_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="disable_virus_scan"
+            android:title="@string/disable_virus_scan_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="allow_get_packages"
+            android:title="@string/allow_get_packages_title"
+            android:summary="@string/allow_get_packages_summary"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="default_enable_autorun"
+            android:title="@string/default_enable_autorun_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:key="about" android:title="@string/category_about">

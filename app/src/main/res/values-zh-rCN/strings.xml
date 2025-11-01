@@ -26,6 +26,10 @@
     <string name="message_module_not_enabled">模块未启用</string>
     <string name="xposed_description">联想：🤓👆我在这个系统里加了点💩，这样你才能知道我有致敬过友商的各种 UI 而且会听取用户声音</string>
     <string name="disable_taskbar_summary">系统内支持设置则不生效</string>
-    <string name="cn_rom_only">仅适用于中国版 ROM</string>
     <string name="rom_region">ROM 区域</string>
+    <string name="allow_get_packages_title">总是允许获取应用列表</string>
+    <string name="allow_get_packages_summary">系统的限制功能并不完善，如有需求请使用 Hide My Applist 代替</string>
+    <string name="keep_rotation_title">重启时保持屏幕方向</string>
+    <string name="cn_rom_only">仅适用于中国版 ROM</string>
+    <string name="default_enable_autorun_title">默认允许应用自启</string>
 </resources>

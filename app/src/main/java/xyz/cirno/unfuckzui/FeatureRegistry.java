@@ -7,13 +7,17 @@ import java.util.Map;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import xyz.cirno.unfuckzui.feature.AllowDisableDolbyAtmos;
+import xyz.cirno.unfuckzui.feature.AllowGetPackages;
 import xyz.cirno.unfuckzui.feature.DisableForceStop;
 import xyz.cirno.unfuckzui.feature.DisableTaskbar;
+import xyz.cirno.unfuckzui.feature.EnableAutorunByDefault;
 import xyz.cirno.unfuckzui.feature.FixAutoGuest;
+import xyz.cirno.unfuckzui.feature.KeepRotation;
 import xyz.cirno.unfuckzui.feature.PackageInstallerHook;
 import xyz.cirno.unfuckzui.feature.PermissionControllerHook;
 import xyz.cirno.unfuckzui.feature.SafeCenterHook;
 import xyz.cirno.unfuckzui.feature.UnfuckNotificationIcon;
+import xyz.cirno.unfuckzui.feature.UnfuckNotificationIconZui17;
 
 public class FeatureRegistry {
     public static class Feature {
@@ -67,20 +71,11 @@ public class FeatureRegistry {
             PermissionControllerHook.FEATURE,
             SafeCenterHook.FEATURE,
             UnfuckNotificationIcon.FEATURE,
+            UnfuckNotificationIconZui17.FEATURE,
             FixAutoGuest.FEATURE,
+            KeepRotation.FEATURE,
+            AllowGetPackages.FEATURE,
+            EnableAutorunByDefault.FEATURE,
     };
-
-    private static final Map<String, Feature> featureMap;
-
-    static {
-        featureMap = new HashMap<>();
-        for (var feature : FEATURES) {
-            featureMap.put(feature.key, feature);
-        }
-    }
-
-    public static Feature getFeature(String key) {
-        return featureMap.get(key);
-    }
 
 }
