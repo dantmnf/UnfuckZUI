@@ -1,13 +1,14 @@
 package xyz.cirno.unfuckzui.feature;
 
-import android.app.AndroidAppHelper;
-import android.content.Context;
-import android.content.pm.PackageManager;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.service.notification.StatusBarNotification;
+import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Objects;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -29,7 +30,7 @@ public class UnfuckNotificationIconZui17 {
     private final ThreadLocal<Boolean> isCtsMode = ThreadLocal.withInitial(() -> null);
 
     public void handleLoadSystemUi(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-                XposedHelpers.findAndHookMethod("com.android.systemui.util.XSystemUtil", lpparam.classLoader, "isCTSGTSTest", new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod("com.android.systemui.util.XSystemUtil", lpparam.classLoader, "isCTSGTSTest", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 var mode = isCtsMode.get();
@@ -46,33 +47,42 @@ public class UnfuckNotificationIconZui17 {
             }
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                isCtsMode.set(false);
+                isCtsMode.remove();
             }
         });
 
         XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.NotificationListener", lpparam.classLoader, "replaceTheSmallIcon", StatusBarNotification.class, XC_MethodReplacement.returnConstant(null));
 
-
         final var notificationHeaderViewWrapper_class = XposedHelpers.findClass("com.android.systemui.statusbar.notification.row.wrapper.NotificationHeaderViewWrapper", lpparam.classLoader);
         final var notificationHeaderViewWrapper_mIcon = XposedHelpers.findField(notificationHeaderViewWrapper_class, "mIcon");
+        final var getIcon = MethodHandles.lookup().unreflectGetter(notificationHeaderViewWrapper_mIcon);
         final var expandableNotificationRow_class = XposedHelpers.findClass("com.android.systemui.statusbar.notification.row.ExpandableNotificationRow", lpparam.classLoader);
-//        final var notificationRow_mEntry = XposedHelpers.findField(expandableNotificationRow_class, "mEntry");
-//        final var notificationRow_getEntry = MethodHandles.lookup().unreflectGetter(notificationRow_mEntry);
-//        final var notificationEntry_getSbn = XposedHelpers.findMethodExact(notificationRow_mEntry.getType(), "getSbn");
+        final var notificationRowIconView_class = Class.forName("com.android.internal.widget.NotificationRowIconView");
         XposedHelpers.findAndHookMethod(notificationHeaderViewWrapper_class, "onContentUpdated", expandableNotificationRow_class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                var row = param.args[0];
-
-                var iconview = (ImageView) notificationHeaderViewWrapper_mIcon.get(param.thisObject);
+                var iconview = (ImageView) getIcon.invoke(param.thisObject);
                 final int KEY_SIZE_UNFUCKED = 1145141919;
-                final float scale = 24.0f / 34.0f;
                 if (!Objects.equals(iconview.getTag(KEY_SIZE_UNFUCKED), Boolean.TRUE)) {
                     var lp = iconview.getLayoutParams();
-                    lp.width = Math.round(lp.width * scale);
-                    lp.height = Math.round(lp.height * scale);
+                    var dm = iconview.getContext().getResources().getDisplayMetrics();
+                    // AOSP notification_icon_circle_size: 24dp
+                    var diameter = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, dm);
+                    lp.width = Math.round(diameter);
+                    lp.height = Math.round(diameter);
                     if (lp instanceof ViewGroup.MarginLayoutParams mlp) {
-                        mlp.setMarginStart(mlp.getMarginStart() + Math.round(lp.width * ((1.0f - scale) * 0.75f)));
+                        mlp.setMarginStart(Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, dm)));
+                    }
+                    if (iconview.getClass() != notificationRowIconView_class) {
+                        // notifications with no circle template
+                        // apply android:padding="@dimen/notification_icon_circle_padding"
+                        var padding = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, dm));
+                        iconview.setPadding(padding, padding, padding, padding);
+                        // apply android:background="@drawable/notification_icon_circle"
+                        var d = new ShapeDrawable();
+                        d.setShape(new OvalShape());
+                        d.getPaint().setColor(0xFF333333);
+                        iconview.setBackground(d);
                     }
                     iconview.requestLayout();
                     iconview.setTag(KEY_SIZE_UNFUCKED, Boolean.TRUE);
@@ -87,5 +97,6 @@ public class UnfuckNotificationIconZui17 {
             }
         });
 
+        XposedHelpers.findAndHookMethod("com.android.systemui.notificationlist.view.NotificationHeaderView", lpparam.classLoader, "shouldShowIconBackground", XC_MethodReplacement.returnConstant(true));
     }
 }
