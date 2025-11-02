@@ -33,4 +33,5 @@
     <string name="keep_rotation_title">Keep screen rotation after reboot</string>
     <string name="cn_rom_only">PRC ROM specific</string>
     <string name="default_enable_autorun_title">Enable app auto start by default</string>
+    <string name="no_charge_animation_title">Disable fullscreen charge animation</string>
 </resources>

@@ -13,6 +13,7 @@ import xyz.cirno.unfuckzui.feature.DisableTaskbar;
 import xyz.cirno.unfuckzui.feature.EnableAutorunByDefault;
 import xyz.cirno.unfuckzui.feature.FixAutoGuest;
 import xyz.cirno.unfuckzui.feature.KeepRotation;
+import xyz.cirno.unfuckzui.feature.NoChargeAnimation;
 import xyz.cirno.unfuckzui.feature.PackageInstallerHook;
 import xyz.cirno.unfuckzui.feature.PermissionControllerHook;
 import xyz.cirno.unfuckzui.feature.SafeCenterHook;
@@ -76,6 +77,7 @@ public class FeatureRegistry {
             KeepRotation.FEATURE,
             AllowGetPackages.FEATURE,
             EnableAutorunByDefault.FEATURE,
+            NoChargeAnimation.FEATURE,
     };
 
 }

@@ -32,4 +32,5 @@
     <string name="keep_rotation_title">重启时保持屏幕方向</string>
     <string name="cn_rom_only">仅适用于中国版 ROM</string>
     <string name="default_enable_autorun_title">默认允许应用自启</string>
+    <string name="no_charge_animation_title">禁用全屏充电动画</string>
 </resources>
