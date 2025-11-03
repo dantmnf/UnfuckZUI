@@ -62,10 +62,13 @@ public class UnfuckNotificationIconZui17 {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 var iconview = (ImageView) getIcon.invoke(param.thisObject);
                 final int KEY_SIZE_UNFUCKED = 1145141919;
-                if (!Objects.equals(iconview.getTag(KEY_SIZE_UNFUCKED), Boolean.TRUE)) {
-                    var lp = iconview.getLayoutParams();
-                    var dm = iconview.getContext().getResources().getDisplayMetrics();
+                if (Objects.equals(iconview.getTag(KEY_SIZE_UNFUCKED), Boolean.TRUE)) {
+                    return;
+                }
+                var lp = iconview.getLayoutParams();
+                if (lp.width != ViewGroup.LayoutParams.MATCH_PARENT) {
                     // AOSP notification_icon_circle_size: 24dp
+                    var dm = iconview.getContext().getResources().getDisplayMetrics();
                     var diameter = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, dm);
                     lp.width = Math.round(diameter);
                     lp.height = Math.round(diameter);
@@ -73,8 +76,8 @@ public class UnfuckNotificationIconZui17 {
                         mlp.setMarginStart(Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, dm)));
                     }
                     iconview.requestLayout();
-                    iconview.setTag(KEY_SIZE_UNFUCKED, Boolean.TRUE);
                 }
+                iconview.setTag(KEY_SIZE_UNFUCKED, Boolean.TRUE);
             }
         });
 
