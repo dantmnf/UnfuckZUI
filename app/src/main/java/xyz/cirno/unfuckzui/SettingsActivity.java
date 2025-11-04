@@ -2,12 +2,15 @@ package xyz.cirno.unfuckzui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.os.SystemProperties;
-import android.preference.CheckBoxPreference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.util.Log;
@@ -15,19 +18,43 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-/** @noinspection deprecation*/
+import rikka.shizuku.Shizuku;
+
+/**
+ * @noinspection deprecation
+ */
 @SuppressLint("WorldReadableFiles")
 public class SettingsActivity extends Activity {
     private static boolean moduleEnabled = false;
 
     private final Set<String> featuresSnapshot = new HashSet<>();
+    private final Shizuku.UserServiceArgs userServiceArgs =
+            new Shizuku.UserServiceArgs(new ComponentName(BuildConfig.APPLICATION_ID, ShizukuUserService.class.getName()))
+                    .daemon(false)
+                    .processNameSuffix("service")
+                    .debuggable(BuildConfig.DEBUG)
+                    .version(BuildConfig.VERSION_CODE);
     private SharedPreferences sp;
+    private final Shizuku.OnRequestPermissionResultListener REQUEST_PERMISSION_RESULT_LISTENER = this::onRequestPermissionsResult;
+
+    private static String escapeShellArg(String arg) {
+        return "'" + arg.replace("'", "'\\''") + "'";
+    }
+
+    private void onRequestPermissionsResult(int requestCode, int grantResult) {
+        if (grantResult == PackageManager.PERMISSION_GRANTED) {
+            reloadSettings();
+        } else {
+            showNoPermissionDialog();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +76,9 @@ public class SettingsActivity extends Activity {
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
+
+        Shizuku.addRequestPermissionResultListener(REQUEST_PERMISSION_RESULT_LISTENER);
+
     }
 
     @Override
@@ -75,8 +105,33 @@ public class SettingsActivity extends Activity {
         }
     }
 
-    private static String escapeShellArg(String arg) {
-        return "'" + arg.replace("'", "'\\''") + "'";
+    private void showNoPermissionDialog() {
+        var dlg = new AlertDialog.Builder(this)
+                .setTitle(R.string.no_permission_reload_title)
+                .setMessage(R.string.no_permission_reload_message)
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> dialogInterface.dismiss())
+                .setCancelable(true)
+                .create();
+        dlg.show();
+    }
+
+    private ShizukuStatus checkShizuku() {
+        if (Shizuku.isPreV11()) {
+            // Pre-v11 is unsupported
+            return ShizukuStatus.Unavailable;
+        }
+
+        if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
+            // Granted
+            return ShizukuStatus.Available;
+        } else if (Shizuku.shouldShowRequestPermissionRationale()) {
+            // Users choose "Deny and don't ask again"
+            return ShizukuStatus.Unavailable;
+        } else {
+            // Request the permission
+            Shizuku.requestPermission(0);
+            return ShizukuStatus.Pending;
+        }
     }
 
     private void reloadSettings() {
@@ -100,24 +155,42 @@ public class SettingsActivity extends Activity {
                 packagesToReload.addAll(Arrays.asList(feature.hook_scope));
             }
         }
-        snapshotFeatures();
 
         if (packagesToReload.isEmpty()) {
             Toast.makeText(this, R.string.message_no_apps_to_reload, Toast.LENGTH_SHORT).show();
             return;
         }
 
+        boolean success = stopPackagesWithSu(packagesToReload);
+
+        if (!success) {
+            // su unavailable
+            var shizukuStatus = checkShizuku();
+            if (shizukuStatus == ShizukuStatus.Available) {
+                success = stopPackagesWithShizuku(packagesToReload);
+            } else if (shizukuStatus == ShizukuStatus.Pending) {
+                // handle in callback
+                return;
+            }
+        }
+
+        if (success) {
+            snapshotFeatures();
+        } else {
+            showNoPermissionDialog();
+        }
+    }
+
+    private boolean stopPackagesWithSu(List<String> packages) {
         try {
-            var proc = Runtime.getRuntime().exec(new String[] { "sh", "-c", "command -v su" });
+            var proc = Runtime.getRuntime().exec(new String[]{"sh", "-c", "command -v su"});
             var exit = proc.waitFor();
             if (exit != 0) {
-                Toast.makeText(this, R.string.message_no_root_permission, Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, R.string.message_manual_reload, Toast.LENGTH_SHORT).show();
-                return;
+                return false;
             }
             proc = Runtime.getRuntime().exec("su");
             var stdin = proc.getOutputStream();
-            for (var pkg : packagesToReload) {
+            for (var pkg : packages) {
                 if ("android".equals(pkg)) {
                     continue;
                 } else {
@@ -126,15 +199,40 @@ public class SettingsActivity extends Activity {
             }
             stdin.write("exit 0\n".getBytes());
             stdin.close();
-            exit = proc.waitFor();
-            if (exit != 0) {
-                throw new RuntimeException();
-            }
+            proc.waitFor();
         } catch (Exception e) {
             Toast.makeText(this, R.string.message_su_invocation_failed, Toast.LENGTH_SHORT).show();
             Toast.makeText(this, R.string.message_manual_reload, Toast.LENGTH_SHORT).show();
+            return false;
         }
+        return true;
     }
+
+    private boolean stopPackagesWithShizuku(List<String> packagesToReload) {
+        if (Shizuku.getUid() != 0) {
+            return false;
+        }
+        Shizuku.bindUserService(userServiceArgs, new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder binder) {
+                if (binder != null && binder.pingBinder()) {
+                    var service = IShizukuUserService.Stub.asInterface(binder);
+                    try {
+                        service.killPackageProcess(packagesToReload.toArray(new String[0]));
+                    } catch (RemoteException ignore) {
+                    }
+                    Shizuku.unbindUserService(userServiceArgs, this, true);
+                }
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+            }
+        });
+        return true;
+    }
+
+    private enum ShizukuStatus {Unavailable, Available, Pending}
 
     public static class SettingsFragment extends PreferenceFragment {
         @Override
@@ -154,6 +252,7 @@ public class SettingsActivity extends Activity {
             if (!moduleEnabled) {
                 findPreference("category_appearance").setEnabled(false);
                 findPreference("category_behavior").setEnabled(false);
+                findPreference("category_cn").setEnabled(false);
             }
 
             var launcherIconPreference = (SwitchPreference) findPreference("show_launcher_icon");
@@ -167,7 +266,5 @@ public class SettingsActivity extends Activity {
             findPreference("version").setSummary(BuildConfig.VERSION_NAME);
             findPreference("rom_region").setSummary(SystemProperties.get("ro.config.zui.region", "N/A"));
         }
-
-
     }
 }

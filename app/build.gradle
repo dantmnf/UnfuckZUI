@@ -15,6 +15,7 @@ android {
     }
     buildFeatures {
         buildConfig true
+        aidl true
     }
     buildTypes {
         release {
@@ -33,5 +34,7 @@ dependencies {
     compileOnly project(path: ':hidden-api')
     //compileOnly("androidx.annotation:annotation:1.7.1")
     compileOnly("de.robv.android.xposed:api:82")
-
+    def shizuku_version = "13.1.5"
+    implementation "dev.rikka.shizuku:api:$shizuku_version"
+    implementation "dev.rikka.shizuku:provider:$shizuku_version"
 }

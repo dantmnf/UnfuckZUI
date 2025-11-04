@@ -34,4 +34,6 @@
     <string name="cn_rom_only">PRC ROM specific</string>
     <string name="default_enable_autorun_title">Enable app auto start by default</string>
     <string name="no_charge_animation_title">Disable fullscreen charge animation</string>
+    <string name="no_permission_reload_title">No permission to reload packages</string>
+    <string name="no_permission_reload_message">Neither root shell nor Shizuku is available.\nPlease restart apps in scope manually, or reboot your device.</string>
 </resources>
