@@ -9,7 +9,7 @@
     <string name="honor_notification_smallicon_title">原生通知图标</string>
     <string name="honor_notification_smallicon_summary">未适配的应用（包括部分系统应用）发送的通知将显示异常</string>
     <string name="package_installer_style_title">原生应用安装器</string>
-    <string name="permission_controller_style_title">原生权限对话框</string>
+    <string name="permission_controller_style_title">原生权限管理器</string>
     <string name="category_behavior">行为</string>
     <string name="allow_disable_dax_title">允许禁用内置扬声器的杜比全景声</string>
     <string name="disable_virus_scan_title">禁用病毒扫描</string>

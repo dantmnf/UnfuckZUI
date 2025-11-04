@@ -12,7 +12,6 @@
     <string name="honor_notification_smallicon_title">Динамические значки уведомлений вместо статичных цветных</string>
     <string name="honor_notification_smallicon_summary">с полезной информацией (напр. температура, уровень заряда)</string>
     <string name="package_installer_style_title">Установщик пакетов в стиле AOSP</string>
-    <string name="permission_controller_style_title">Запрос разрешений в стиле AOSP</string>
     <string name="category_behavior">Функции</string>
     <string name="allow_disable_dax_title">Разрешить отключение Dolby Atmos для встроенных динамиков</string>
     <string name="disable_virus_scan_title">Отключить проверку антивирусом</string>

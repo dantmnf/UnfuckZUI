@@ -12,7 +12,7 @@
     <string name="honor_notification_smallicon_title">Honor notification icon set by application</string>
     <string name="honor_notification_smallicon_summary">instead of being replaced by app icon</string>
     <string name="package_installer_style_title">AOSP-style package installer</string>
-    <string name="permission_controller_style_title">AOSP-style permission popup</string>
+    <string name="permission_controller_style_title">AOSP-style permission controller</string>
     <string name="category_behavior">Behavior</string>
     <string name="allow_disable_dax_title">Allow disable Dolby Atmos for builtin speakers</string>
     <string name="disable_virus_scan_title">Disable virus scan</string>
