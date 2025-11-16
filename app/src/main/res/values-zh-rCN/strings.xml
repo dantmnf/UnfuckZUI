@@ -34,5 +34,10 @@
     <string name="default_enable_autorun_title">默认允许应用自启</string>
     <string name="no_charge_animation_title">禁用全屏充电动画</string>
     <string name="no_permission_reload_title">没有权限进行重载</string>
-    <string name="no_permission_reload_message">无法启动 root shell 或 Shizuku 服务。\n请手动重启作用域内应用或重启设备。</string>
+    <string name="no_permission_reload_message">无法启动 root shell 或通过 Shizuku 启动特权服务。\n请手动重启作用域内应用或重启设备。</string>
+    <string name="adjust_settings_split_title">调整设置分栏布局条件</string>
+    <string name="adjust_settings_split_summary">Y700 竖屏模式下不分栏</string>
+    <string name="unlock_cn_gms_title">移除中国版 Google Play 服务限制</string>
+    <string name="unlock_cn_gms_summary">启用跨设备服务、快速分享、Play 商店自主更新等功能</string>
+    <string name="disable_game_helper_popup_title">禁用游戏助手激活弹窗</string>
 </resources>

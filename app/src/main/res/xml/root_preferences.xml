@@ -16,6 +16,12 @@
             android:defaultValue="true"
             android:key="no_charge_animation"
             android:title="@string/no_charge_animation_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="adjust_settings_split"
+            android:title="@string/adjust_settings_split_title"
+            android:summary="@string/adjust_settings_split_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:key="category_behavior"  android:title="@string/category_behavior">
@@ -40,6 +46,11 @@
             android:defaultValue="true"
             android:key="keep_rotation"
             android:title="@string/keep_rotation_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="disable_game_helper_popup"
+            android:title="@string/disable_game_helper_popup_title"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:key="category_cn" android:title="@string/cn_rom_only">、
@@ -68,6 +79,12 @@
             android:defaultValue="true"
             android:key="default_enable_autorun"
             android:title="@string/default_enable_autorun_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="unlock_cn_gms"
+            android:title="@string/unlock_cn_gms_title"
+            android:summary="@string/unlock_cn_gms_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:key="about" android:title="@string/category_about">

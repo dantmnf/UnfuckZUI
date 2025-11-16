@@ -1,21 +1,20 @@
 package xyz.cirno.unfuckzui;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import xyz.cirno.unfuckzui.feature.AllowDisableDolbyAtmos;
 import xyz.cirno.unfuckzui.feature.AllowGetPackages;
 import xyz.cirno.unfuckzui.feature.DisableForceStop;
+import xyz.cirno.unfuckzui.feature.DisableGameHelperPopup;
 import xyz.cirno.unfuckzui.feature.DisableTaskbar;
 import xyz.cirno.unfuckzui.feature.EnableAutorunByDefault;
 import xyz.cirno.unfuckzui.feature.FixAutoGuest;
 import xyz.cirno.unfuckzui.feature.KeepRotation;
 import xyz.cirno.unfuckzui.feature.NoChargeAnimation;
+import xyz.cirno.unfuckzui.feature.NoSettingsSplit;
 import xyz.cirno.unfuckzui.feature.PackageInstallerHook;
 import xyz.cirno.unfuckzui.feature.PermissionControllerHook;
+import xyz.cirno.unfuckzui.feature.UnlockCnGms;
 import xyz.cirno.unfuckzui.feature.SafeCenterHook;
 import xyz.cirno.unfuckzui.feature.UnfuckNotificationIcon;
 import xyz.cirno.unfuckzui.feature.UnfuckNotificationIconZui17;
@@ -78,6 +77,9 @@ public class FeatureRegistry {
             AllowGetPackages.FEATURE,
             EnableAutorunByDefault.FEATURE,
             NoChargeAnimation.FEATURE,
+            NoSettingsSplit.FEATURE,
+            UnlockCnGms.FEATURE,
+            DisableGameHelperPopup.FEATURE
     };
 
 }

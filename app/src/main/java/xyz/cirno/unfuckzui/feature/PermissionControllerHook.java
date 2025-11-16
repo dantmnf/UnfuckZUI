@@ -45,7 +45,7 @@ public class PermissionControllerHook {
                 param.setResult(null);
             }
         });
-        XposedHelpers.findAndHookMethod(cls, "onDestroy", XC_MethodReplacement.DO_NOTHING);
+        // XposedHelpers.findAndHookMethod(cls, "onDestroy", XC_MethodReplacement.DO_NOTHING);
     }
 
     static class SettingsHook {

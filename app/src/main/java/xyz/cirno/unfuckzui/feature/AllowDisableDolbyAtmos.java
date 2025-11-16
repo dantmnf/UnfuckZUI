@@ -45,6 +45,8 @@ public class AllowDisableDolbyAtmos {
             XposedHelpers.findAndHookMethod("com.android.systemui.qs.tiles.QDolbyAtmosDetailView", lpparam.classLoader, "isHeadSetConnect", XC_MethodReplacement.returnConstant(Boolean.TRUE));
         } else if ("com.zui.game.service".equals(lpparam.packageName)) {
             XposedHelpers.findAndHookMethod("com.zui.game.service.util.DolbyUtils", lpparam.classLoader, "handleDolbyGameSound", android.content.Context.class, int.class, XC_MethodReplacement.returnConstant(null));
+//            XposedHelpers.findAndHookMethod("com.zui.game.service.ui.FloatingGameNoticController", lpparam.classLoader, "show", XC_MethodReplacement.DO_NOTHING);
+            XposedHelpers.findAndHookMethod("com.zui.util.SettingsValueUtilKt", lpparam.classLoader, "isHeadsetConnected", "android.content.Context", XC_MethodReplacement.returnConstant(true));
         }
     }
 }

@@ -36,4 +36,9 @@
     <string name="no_charge_animation_title">Disable fullscreen charge animation</string>
     <string name="no_permission_reload_title">No permission to reload packages</string>
     <string name="no_permission_reload_message">Neither root shell nor Shizuku is available.\nPlease restart apps in scope manually, or reboot your device.</string>
+    <string name="adjust_settings_split_title">Adjust condition of split settings</string>
+    <string name="adjust_settings_split_summary">Don\'t split on portrait Y700</string>
+    <string name="unlock_cn_gms_title">Remove CN Google Play Services restrictions</string>
+    <string name="unlock_cn_gms_summary">Enable Cross Device Services, Quick Share, Play Store self-update and more</string>
+    <string name="disable_game_helper_popup_title">Disable game helper activation popup</string>
 </resources>
