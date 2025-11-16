@@ -20,3 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class xyz.cirno.unfuckzui.XposedInit
+-keepnames class *
+-keepnames class **$*
+-keepclassmembernames class * { *; }
+-keepclassmembernames class **$* { *; }
