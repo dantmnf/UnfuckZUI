@@ -44,8 +44,8 @@
 
         <SwitchPreference
             android:defaultValue="true"
-            android:key="keep_rotation"
-            android:title="@string/keep_rotation_title"/>
+            android:key="default_portrait"
+            android:title="@string/default_portrait_title"/>
 
         <SwitchPreference
             android:defaultValue="true"

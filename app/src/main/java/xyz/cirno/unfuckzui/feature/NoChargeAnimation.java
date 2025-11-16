@@ -26,7 +26,12 @@ public class NoChargeAnimation {
     public void handleLoadSystemUi(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         var classLoader = lpparam.classLoader;
         var ChargingAnimationControllerClass = classLoader.loadClass("com.android.keyguard.lockscreen.charge.ChargingAnimationController");
-        var handlerField = XposedHelpers.findField(ChargingAnimationControllerClass, "H");
-        XposedHelpers.findAndHookMethod(handlerField.getType(), "handleMessage", Message.class, XC_MethodReplacement.DO_NOTHING);
+        if (Build.VERSION.SDK_INT >= 35) {
+            // handleShow inlined
+            var handlerField = XposedHelpers.findField(ChargingAnimationControllerClass, "H");
+            XposedHelpers.findAndHookMethod(handlerField.getType(), "handleMessage", Message.class, XC_MethodReplacement.DO_NOTHING);
+        } else {
+            XposedHelpers.findAndHookMethod(ChargingAnimationControllerClass, "handleShow", int.class, int.class, long.class, XC_MethodReplacement.DO_NOTHING);
+        }
     }
 }

@@ -179,10 +179,12 @@ public class UnfuckNotificationIcon {
                     d.getPaint().setColor(0xFF333333);
                     iconview.setBackground(d);
                     var lp = iconview.getLayoutParams();
-                    lp.width = Math.round(lp.width * scale);
-                    lp.height = Math.round(lp.height * scale);
-                    if (lp instanceof ViewGroup.MarginLayoutParams mlp) {
-                        mlp.setMarginStart(mlp.getMarginStart() + Math.round(lp.width * ((1.0f - scale) * 0.75f)));
+                    if (lp.width != ViewGroup.LayoutParams.MATCH_PARENT) {
+                        lp.width = Math.round(lp.width * scale);
+                        lp.height = Math.round(lp.height * scale);
+                        if (lp instanceof ViewGroup.MarginLayoutParams mlp) {
+                            mlp.setMarginStart(mlp.getMarginStart() + Math.round(lp.width * ((1.0f - scale) * 0.75f)));
+                        }
                     }
                     iconview.requestLayout();
                     iconview.setTag(KEY_BACKGROUND_UNFUCKED, Boolean.TRUE);

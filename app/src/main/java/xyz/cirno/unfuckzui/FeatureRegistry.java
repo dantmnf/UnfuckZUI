@@ -9,7 +9,7 @@ import xyz.cirno.unfuckzui.feature.DisableGameHelperPopup;
 import xyz.cirno.unfuckzui.feature.DisableTaskbar;
 import xyz.cirno.unfuckzui.feature.EnableAutorunByDefault;
 import xyz.cirno.unfuckzui.feature.FixAutoGuest;
-import xyz.cirno.unfuckzui.feature.KeepRotation;
+import xyz.cirno.unfuckzui.feature.DefaultPortrait;
 import xyz.cirno.unfuckzui.feature.NoChargeAnimation;
 import xyz.cirno.unfuckzui.feature.NoSettingsSplit;
 import xyz.cirno.unfuckzui.feature.PackageInstallerHook;
@@ -73,7 +73,7 @@ public class FeatureRegistry {
             UnfuckNotificationIcon.FEATURE,
             UnfuckNotificationIconZui17.FEATURE,
             FixAutoGuest.FEATURE,
-            KeepRotation.FEATURE,
+            DefaultPortrait.FEATURE,
             AllowGetPackages.FEATURE,
             EnableAutorunByDefault.FEATURE,
             NoChargeAnimation.FEATURE,

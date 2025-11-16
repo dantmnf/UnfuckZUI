@@ -30,7 +30,7 @@
     <string name="rom_region">ROM region</string>
     <string name="allow_get_packages_title">Always allow query installed packages</string>
     <string name="allow_get_packages_summary">The system feature does not work well. Use Hide My Applist instead if needed</string>
-    <string name="keep_rotation_title">Keep screen rotation after reboot</string>
+    <string name="default_portrait_title">Change default rotation to portrait</string>
     <string name="cn_rom_only">PRC ROM specific</string>
     <string name="default_enable_autorun_title">Enable app auto start by default</string>
     <string name="no_charge_animation_title">Disable fullscreen charge animation</string>
