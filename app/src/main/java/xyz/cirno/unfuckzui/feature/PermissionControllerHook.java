@@ -79,7 +79,11 @@ public class PermissionControllerHook {
             // make settings invoke AOSP permission manager
             XposedHelpers.findAndHookMethod("com.android.settings.applications.appinfo.AppPermissionPreferenceController", lpparam.classLoader, "startManagePermissionsActivity", new IsRowVersionTlsHook());
             XposedHelpers.findAndHookMethod("com.lenovo.settings.privacy.PrivacyManagerPreferenceController", lpparam.classLoader, "handlePreferenceTreeClick", "androidx.preference.Preference", new IsRowVersionTlsHook());
-            XposedHelpers.findAndHookMethod("com.lenovo.settings.applications.LenovoAppHeaderPreferenceController", lpparam.classLoader, "lambda$initAppEntryList$0$com-lenovo-settings-applications-LenovoAppHeaderPreferenceController", "android.view.View", new IsRowVersionTlsHook());
+            if (android.os.Build.VERSION.SDK_INT >= 36){
+                XposedHelpers.findAndHookMethod("com.lenovo.settings.applications.LenovoAppHeaderPreferenceController", lpparam.classLoader, "handlePermissionClick", new IsRowVersionTlsHook());
+            } else {
+                XposedHelpers.findAndHookMethod("com.lenovo.settings.applications.LenovoAppHeaderPreferenceController", lpparam.classLoader, "lambda$initAppEntryList$0$com-lenovo-settings-applications-LenovoAppHeaderPreferenceController", "android.view.View", new IsRowVersionTlsHook());
+            }
         }
     }
 
