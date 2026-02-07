@@ -1,5 +1,6 @@
 package xyz.cirno.unfuckzui.feature;
 
+import android.content.Context;
 import android.os.Build;
 import android.service.notification.StatusBarNotification;
 import android.util.TypedValue;
@@ -19,7 +20,7 @@ public class UnfuckNotificationIconZui17 {
     public static final String FEATURE_NAME = "honor_notification_smallicon";
     public static final FeatureRegistry.Feature FEATURE = new FeatureRegistry.Feature(FEATURE_NAME, new String[] {"com.android.systemui"}, UnfuckNotificationIconZui17::handleLoadPackage);
     public static void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (Build.VERSION.SDK_INT != 35) {
+        if (Build.VERSION.SDK_INT < 35) {
             return;
         }
         new UnfuckNotificationIconZui17().handleLoadSystemUi(lpparam);
@@ -51,7 +52,11 @@ public class UnfuckNotificationIconZui17 {
         });
 
         // don't replace the small icon with app icon
-        XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.NotificationListener", lpparam.classLoader, "replaceTheSmallIcon", StatusBarNotification.class, XC_MethodReplacement.returnConstant(null));
+        if (Build.VERSION.SDK_INT == 35) {
+            XposedHelpers.findAndHookMethod("com.android.systemui.statusbar.NotificationListener", lpparam.classLoader, "replaceTheSmallIcon", StatusBarNotification.class, XC_MethodReplacement.returnConstant(null));
+        } else if (Build.VERSION.SDK_INT == 36) {
+            XposedHelpers.findAndHookMethod("com.android.systemui.util.QSUtil", lpparam.classLoader, "replaceTheSmallIcon", Context.class, StatusBarNotification.class, XC_MethodReplacement.returnConstant(null));
+        }
 
         final var notificationHeaderViewWrapper_class = XposedHelpers.findClass("com.android.systemui.statusbar.notification.row.wrapper.NotificationHeaderViewWrapper", lpparam.classLoader);
         final var notificationHeaderViewWrapper_mIcon = XposedHelpers.findField(notificationHeaderViewWrapper_class, "mIcon");
@@ -81,10 +86,11 @@ public class UnfuckNotificationIconZui17 {
             }
         });
 
-        // always true for ROW
-        XposedHelpers.findAndHookMethod("com.android.systemui.notificationlist.view.NotificationHeaderView", lpparam.classLoader, "shouldShowIconBackground", XC_MethodReplacement.returnConstant(true));
-
-        // always use circle template for android.app.Notification$Builder#get*Resource()
-        XposedHelpers.findAndHookMethod("android.app.Notification$Builder", lpparam.classLoader, "isCtsGtsTest", XC_MethodReplacement.returnConstant(true));
+        if (Build.VERSION.SDK_INT == 35) {
+            // always true for ROW
+            XposedHelpers.findAndHookMethod("com.android.systemui.notificationlist.view.NotificationHeaderView", lpparam.classLoader, "shouldShowIconBackground", XC_MethodReplacement.returnConstant(true));
+            // always use circle template for android.app.Notification$Builder#get*Resource()
+            XposedHelpers.findAndHookMethod("android.app.Notification$Builder", lpparam.classLoader, "isCtsGtsTest", XC_MethodReplacement.returnConstant(true));
+        }
     }
 }
