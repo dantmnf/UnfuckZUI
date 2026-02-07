@@ -41,4 +41,6 @@
     <string name="unlock_cn_gms_title">Remove CN Google Play Services restrictions</string>
     <string name="unlock_cn_gms_summary">Enable Cross Device Services, Quick Share, Play Store self-update and more</string>
     <string name="disable_game_helper_popup_title">Disable game helper activation popup</string>
+    <string name="change_task_timeout_title">Change inactive task timeout to 7 days</string>
+    <string name="change_task_timeout_summary">Inactive tasks will be removed from task switcher after timeout (AOSP defaults to 6 hours)</string>
 </resources>

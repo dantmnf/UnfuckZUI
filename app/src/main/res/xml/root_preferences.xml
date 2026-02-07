@@ -51,6 +51,12 @@
             android:defaultValue="true"
             android:key="disable_game_helper_popup"
             android:title="@string/disable_game_helper_popup_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="change_task_timeout"
+            android:title="@string/change_task_timeout_title"
+            android:summary="@string/change_task_timeout_summary"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:key="category_cn" android:title="@string/cn_rom_only">、

@@ -40,4 +40,6 @@
     <string name="unlock_cn_gms_title">移除中国版 Google Play 服务限制</string>
     <string name="unlock_cn_gms_summary">启用跨设备服务、快速分享、Play 商店自主更新等功能</string>
     <string name="disable_game_helper_popup_title">禁用游戏助手激活弹窗</string>
+    <string name="change_task_timeout_title">后台任务超时改为 7 天</string>
+    <string name="change_task_timeout_summary">后台任务超时后将从任务切换画面中移除（AOSP 默认值为 6 小时）</string>
 </resources>

@@ -6,6 +6,7 @@ import xyz.cirno.unfuckzui.feature.AllowDisableDolbyAtmos;
 import xyz.cirno.unfuckzui.feature.AllowGetPackages;
 import xyz.cirno.unfuckzui.feature.DisableForceStop;
 import xyz.cirno.unfuckzui.feature.DisableGameHelperPopup;
+import xyz.cirno.unfuckzui.feature.ChangeTaskTimeout;
 import xyz.cirno.unfuckzui.feature.DisableTaskbar;
 import xyz.cirno.unfuckzui.feature.EnableAutorunByDefault;
 import xyz.cirno.unfuckzui.feature.FixAutoGuest;
@@ -79,7 +80,8 @@ public class FeatureRegistry {
             NoChargeAnimation.FEATURE,
             NoSettingsSplit.FEATURE,
             UnlockCnGms.FEATURE,
-            DisableGameHelperPopup.FEATURE
+            DisableGameHelperPopup.FEATURE,
+            ChangeTaskTimeout.FEATURE,
     };
 
 }
