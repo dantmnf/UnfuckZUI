@@ -10,8 +10,8 @@ android {
         applicationId "xyz.cirno.unfuckzui"
         minSdk 33
         targetSdk 33
-        versionCode 11
-        versionName "4.3"
+        versionCode 12
+        versionName "4.3.1"
     }
     buildFeatures {
         buildConfig true
