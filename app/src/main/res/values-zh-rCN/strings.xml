@@ -32,6 +32,7 @@
     <string name="default_portrait_title">默认屏幕方向改为竖屏</string>
     <string name="cn_rom_only">仅适用于中国版 ROM</string>
     <string name="default_enable_autorun_title">默认允许应用自启</string>
+    <string name="default_enable_autorun_summary">总是允许“关联启动”</string>
     <string name="no_charge_animation_title">禁用全屏充电动画</string>
     <string name="no_permission_reload_title">没有权限进行重载</string>
     <string name="no_permission_reload_message">无法启动 root shell 或通过 Shizuku 启动特权服务。\n请手动重启作用域内应用或重启设备。</string>

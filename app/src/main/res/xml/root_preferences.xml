@@ -84,7 +84,8 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="default_enable_autorun"
-            android:title="@string/default_enable_autorun_title"/>
+            android:title="@string/default_enable_autorun_title"
+            android:summary="@string/default_enable_autorun_summary"/>
 
         <SwitchPreference
             android:defaultValue="true"
